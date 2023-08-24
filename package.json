@@ -1,6 +1,6 @@
 {
   "name": "@bestjarvan/helper-rule-engine",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "rule-engine-bulder-ui",
   "author": "JiangYahui <j532547613@gmail.com>",
   "main": "lib/index.js",
@@ -40,11 +40,9 @@
     "clone": "1.0.4",
     "immutable": "4.1.0",
     "lodash": "^4.17.21",
-    "moment": "2.29.4",
     "prop-types": "15.8.1",
     "react": "17.0.2",
     "react-redux": "7.2.9",
-    "redux": "4.2.1",
-    "spel2js": "0.2.8"
+    "redux": "4.2.1"
   }
 }
