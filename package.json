@@ -1,5 +1,5 @@
 {
-  "name": "@helper/rule-engine",
+  "name": "@bestjarvan/helper-rule-engine",
   "version": "1.0.0",
   "description": "rule-engine-bulder-ui",
   "author": "JiangYahui <j532547613@gmail.com>",
@@ -14,18 +14,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BestJarvan/rule-engine-builder-ui.git"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
+  "repository": "https://github.com/BestJarvan/helper-rule-engine.git",
   "license": "MIT",
   "files": [
     "lib"
   ],
   "bugs": {
-    "url": "https://github.com/BestJarvan/rule-engine-builder-ui/issues"
+    "url": "https://github.com/BestJarvan/helper-rule-engine/issues"
   },
-  "homepage": "https://github.com/BestJarvan/rule-engine-builder-ui#readme",
+  "homepage": "https://github.com/BestJarvan/helper-rule-engine#readme",
   "devDependencies": {
     "@babel/cli": "7.18.10",
     "@babel/core": "^7.18.10",
