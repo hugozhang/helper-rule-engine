@@ -1,7 +1,7 @@
 rm -rf lib
 
-babel -d lib ./modules
-sass css/:lib/css/ --no-source-map --style=expanded
+npx babel -d lib ./modules
+npx sass css/:lib/css/ --no-source-map --style=expanded
 cp css/antd.less lib/css/antd.less
 
 cp modules/index.d.ts lib/index.d.ts
