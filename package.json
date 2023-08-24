@@ -1,6 +1,6 @@
 {
   "name": "@bestjarvan/helper-rule-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "rule-engine-bulder-ui",
   "author": "JiangYahui <j532547613@gmail.com>",
   "main": "lib/index.js",
