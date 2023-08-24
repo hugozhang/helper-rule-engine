@@ -410,6 +410,7 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
       }
     } else if (methodName == "parse" && obj && obj[0].type == "!new" && obj[0].cls.at(-1) == "SimpleDateFormat") {
       // new java.text.SimpleDateFormat('yyyy-MM-dd').parse('2022-01-15')
+      // string_to_date
       const args = obj[0].args.map(v => convertArg(v, conv, config, meta, {
         ...spel,
         _groupField: parentSpel?._groupField

@@ -754,7 +754,8 @@ const widgets = {
     },
     spelFormatValue: (val, fieldDef, wgtDef, op, opDef) => {
       const dateVal = moment(val, wgtDef.valueFormat);
-      return `new java.text.SimpleDateFormat('yyyy-MM-dd').parse('${dateVal.format("YYYY-MM-DD")}')`;
+      // return `new java.text.SimpleDateFormat('yyyy-MM-dd').parse('${dateVal.format("YYYY-MM-DD")}')`;
+      return `string_to_date('${dateVal.format("YYYY-MM-DD")}', 'yyyy-MM-dd')`;
     },
     jsonLogic: (val, fieldDef, wgtDef) => moment(val, wgtDef.valueFormat).toDate(),
     toJS: (val, fieldSettings) => {
@@ -849,7 +850,8 @@ const widgets = {
     },
     spelFormatValue: (val, fieldDef, wgtDef, op, opDef) => {
       const dateVal = moment(val, wgtDef.valueFormat);
-      return `new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').parse('${dateVal.format("YYYY-MM-DD HH:mm:ss")}')`;
+      // return `new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').parse('${dateVal.format("YYYY-MM-DD HH:mm:ss")}')`;
+      return `string_to_date('${dateVal.format("YYYY-MM-DD HH:mm:ss")}', 'yyyy-MM-dd HH:mm:ss')`;
     },
     jsonLogic: (val, fieldDef, wgtDef) => moment(val, wgtDef.valueFormat).toDate(),
     toJS: (val, fieldSettings) => {

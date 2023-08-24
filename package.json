@@ -1,0 +1,25 @@
+{
+  "name": "helper-rule-engine",
+  "version": "1.0.0",
+  "description": "rule-engine-bulder-ui",
+  "main": "lib/index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BestJarvan/rule-engine-builder-ui.git"
+  },
+  "author": "JiangYahui <j532547613@gmail.com>",
+  "license": "MIT",
+  "types": "./lib/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/BestJarvan/rule-engine-builder-ui/issues"
+  },
+  "homepage": "https://github.com/BestJarvan/rule-engine-builder-ui#readme"
+}
