@@ -36,7 +36,7 @@ export const _loadFromSpel = (spelStr, config, returnErrors = true) => {
 
     jsTree = convertToTree(convertedObj, conv, extendedConfig, meta);
     if (jsTree && jsTree.type != "group" && jsTree.type != "switch_group") {
-      jsTree = wrapInDefaultConj(jsTree, extendedConfig);
+      jsTree = wrapInDefaultConj(jsTree, extendedConfig, convertedObj["not"]);
     }
     logger.debug("jsTree:", jsTree);
   }
@@ -376,13 +376,16 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
       [".startsWith"]: "starts_with",
       [".endsWith"]: "ends_with",
       ["$contains"]: "select_any_in",
+      [".equals"]: "multiselect_equals",
+      //[".containsAll"]: "multiselect_contains",
+      ["CollectionUtils.containsAny()"]: "multiselect_contains"
     };
 
     const convertedArgs = args.map(v => convertArg(v, conv, config, meta, {
       ...spel,
       _groupField: parentSpel?._groupField
     }));
-
+    
     //todo: make dynamic: use funcToOpMap and check obj type in basic config
     if (methodName == "contains" && obj && obj[0].type == "list") {
       const convertedObj = obj.map(v => convertArg(v, conv, config, meta, spel));
@@ -399,6 +402,12 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
       const opKey = funcToOpMap["$"+methodName];
       const list = convertedObj[0];
       return buildRule(config, meta, field, opKey, [list]);
+    } else if (obj && obj[0].type == "property" && funcToOpMap[obj[0].val + "." + methodName + "()"]) {
+      // CollectionUtils.containsAny(multicolor, {'yellow', 'green'})
+      const opKey = funcToOpMap[obj[0].val + "." + methodName + "()"];
+      const field = convertedArgs[0].value;
+      const args = convertedArgs.slice(1);
+      return buildRule(config, meta, field, opKey, args);
     } else if (funcToOpMap["."+methodName]) {
       // user.login.startsWith('gg')
       const opKey = funcToOpMap["."+methodName];
@@ -410,7 +419,6 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
       }
     } else if (methodName == "parse" && obj && obj[0].type == "!new" && obj[0].cls.at(-1) == "SimpleDateFormat") {
       // new java.text.SimpleDateFormat('yyyy-MM-dd').parse('2022-01-15')
-      // string_to_date
       const args = obj[0].args.map(v => convertArg(v, conv, config, meta, {
         ...spel,
         _groupField: parentSpel?._groupField
@@ -594,8 +602,10 @@ const convertToTree = (spel, conv, config, meta, parentSpel = null) => {
       opKey = "is_not_null";
     } else if (op == "le" && spel.children[1].type == "string" && spel.children[1].val == "") {
       opKey = "is_empty";
+      opKeys = ["is_empty"];
     } else if (op == "gt" && spel.children[1].type == "string" && spel.children[1].val == "") {
       opKey = "is_not_empty";
+      opKeys = ["is_not_empty"];
     } else if (op == "between") {
       opKey = "between";
       opKeys = ["between"];
@@ -674,8 +684,9 @@ const convertToTree = (spel, conv, config, meta, parentSpel = null) => {
 
           //todo: it's naive
           const widgets = opKeys.map(op => ({op, widget: getWidgetForFieldOp(config, field, op)}));
-          if (op == "eq") {
-            const ws = widgets.find(({op, widget}) => (widget != "field"));
+          
+          if (op == "eq" || op == "ne") {
+            const ws = widgets.find(({ op, widget }) => (widget && widget != "field"));
             opKey = ws.op;
           }
         }
@@ -862,7 +873,7 @@ const wrapInDefaultConj = (rule, config, not = false) => {
     children1: { [rule.id]: rule },
     properties: {
       conjunction: defaultConjunction(config),
-      not: not
+      not: not || false
     }
   };
 };

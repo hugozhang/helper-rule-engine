@@ -17,12 +17,10 @@
 .group--children {
   padding-left: 10px !important;
 }
-
 .group--children > .group-or-rule-container > .group-or-rule::before, .group--children > .group-or-rule-container > .group-or-rule::after {
   left: -7px;
   width: 7px;
 }
-
 .group--children > .group-or-rule-container:first-child > .group-or-rule::before {
   top: -7px;
 }
@@ -55,15 +53,12 @@
 .rule_group .group--actions {
   margin-left: 5px;
 }
-
 .rule_group .rule_group--children {
   padding-left: 10px !important;
 }
-
 .rule_group .rule_group--children.one--child {
   padding-left: 5px !important;
 }
-
 .rule_group .rule_group--children > .group-or-rule-container > .group-or-rule::before, .rule_group .rule_group--children > .group-or-rule-container > .group-or-rule::after {
   left: -7px;
   width: 7px;

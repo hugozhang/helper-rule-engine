@@ -3,26 +3,42 @@ const value =
   "type": "group",
   "id": "9a99988a-0123-4456-b89a-b1607f326fd8",
   "children1": {
-    "98a8a9ba-0123-4456-b89a-b16e721c8cd0": {
+    "a98ab9b9-cdef-4012-b456-71607f326fd9": {
       "type": "rule",
       "properties": {
-        "field": "FIRST_SUCCESSFUL_FIAT_TRANSACTION_AGE_SECONDS",
+        "field": "user.login",
         "operator": "equal",
         "value": [
-          35
+          "batman"
         ],
         "valueSrc": [
           "value"
         ],
         "valueType": [
-          "number"
+          "text"
+        ]
+      }
+    },
+    "98a8a9ba-0123-4456-b89a-b16e721c8cd0": {
+      "type": "rule",
+      "properties": {
+        "field": "stock",
+        "operator": "equal",
+        "value": [
+          false
+        ],
+        "valueSrc": [
+          "value"
+        ],
+        "valueType": [
+          "boolean"
         ]
       }
     },
     "aabbab8a-cdef-4012-b456-716e85c65e9c": {
       "type": "rule",
       "properties": {
-        "field": "FIRST_SUCCESSFUL_FIAT_TRANSACTION_AGE_SECONDS",
+        "field": "slider",
         "operator": "equal",
         "value": [
           35

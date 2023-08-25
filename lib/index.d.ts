@@ -129,6 +129,7 @@ type JsonRuleGroupExt = {
 }
 type JsonRule = {
   type: "rule",
+  id?: string,
   properties: RuleProperties,
 }
 export type JsonTree = JsonGroup|JsonSwitchGroup;
@@ -185,6 +186,7 @@ export interface Utils {
   simulateAsyncFetch(all: AsyncFetchListValues, pageSize?: number, delay?: number): AsyncFetchListValuesFn;
   // config utils
   ConfigUtils: {
+    extendConfig(config: Config): Config;
     getFieldConfig(config: Config, field: string): Field | null;
     getFuncConfig(config: Config, func: string): Func | null;
     getFuncArgConfig(config: Config, func: string, arg: string): FuncArg | null;
@@ -203,6 +205,14 @@ export interface BuilderProps {
   config: Config,
   actions: Actions,
   dispatch: Dispatch,
+}
+
+export interface ItemBuilderProps {
+  config: Config;
+  actions: Actions;
+  properties: TypedMap<any>;
+  type: ItemType;
+  itemComponent: Factory<ItemProperties>;
 }
 
 export interface QueryProps {
@@ -408,7 +418,7 @@ export interface ConjunctionOption {
 }
 
 export interface ConjsProps {
-  id: string, 
+  id: string,
   readonly?: boolean,
   disabled?: boolean,
   selectedConjunction?: string,
@@ -427,8 +437,8 @@ export interface ConjsProps {
 /////////////////
 
 export interface ButtonProps {
-  type: "addRule" | "addGroup" | "delRule" | "delGroup"  | "addRuleGroup" | "delRuleGroup", 
-  onClick(): void, 
+  type: "addRule" | "addGroup" | "delRule" | "delGroup"  | "addRuleGroup" | "delRuleGroup",
+  onClick(): void,
   label: string,
   config?: Config,
   readonly?: boolean,
@@ -454,23 +464,23 @@ export interface ProviderProps {
 }
 
 export type ValueSourceItem = {
-  label: string, 
+  label: string,
 }
 type ValueSourcesItems = TypedValueSourceMap<ValueSourceItem>;
 
 export interface ValueSourcesProps {
   config?: Config,
-  valueSources: ValueSourcesItems, 
-  valueSrc?: ValueSource, 
-  setValueSrc(valueSrc: string): void, 
+  valueSources: ValueSourcesItems,
+  valueSrc?: ValueSource,
+  setValueSrc(valueSrc: string): void,
   readonly?: boolean,
   title: string,
 }
 
 export interface ConfirmModalProps {
-  onOk(): void, 
-  okText: string, 
-  cancelText?: string, 
+  onOk(): void,
+  okText: string,
+  cancelText?: string,
   title: string,
 }
 
@@ -706,12 +716,12 @@ export type Fields = TypedMap<FieldOrGroup>;
 /////////////////
 
 export type FieldItem = {
-  items?: FieldItems, 
-  key: string, 
+  items?: FieldItems,
+  key: string,
   path?: string, // field path with separator
-  label: string, 
-  fullLabel?: string, 
-  altLabel?: string, 
+  label: string,
+  fullLabel?: string,
+  altLabel?: string,
   tooltip?: string,
   disabled?: boolean,
 }
@@ -814,6 +824,7 @@ export interface RenderSettings {
   renderConfirm?: ConfirmFunc,
   useConfirm?: () => Function,
   renderSize?: AntdSize,
+  renderItem?: Factory<ItemBuilderProps>,
   dropdownPlacement?: AntdPosition,
   groupActionsPosition?: AntdPosition,
   showLabels?: boolean,
@@ -859,6 +870,8 @@ export interface BehaviourSettings {
   convertableWidgets?: TypedMap<Array<string>>,
   removeEmptyGroupsOnLoad?: boolean,
   removeIncompleteRulesOnLoad?: boolean,
+  removeInvalidMultiSelectValuesOnLoad?: boolean,
+  groupOperators?: Array<string>,
 }
 
 export interface OtherSettings {
@@ -912,6 +925,7 @@ export interface Func {
   renderBrackets?: Array<ReactElement | string>,
   renderSeps?: Array<ReactElement | string>,
   spelFormatFunc?: SpelFormatFunc,
+  allowSelfNesting?: boolean,
 }
 export interface FuncArg extends ValueField {
   isOptional?: boolean,
@@ -950,6 +964,8 @@ export interface BasicConfig extends Config {
     select_not_equals: BinaryOperator,
     select_any_in: BinaryOperator,
     select_not_any_in: BinaryOperator,
+    multiselect_contains: BinaryOperator,
+    multiselect_not_contains: BinaryOperator,
     multiselect_equals: BinaryOperator,
     multiselect_not_equals: BinaryOperator,
     proximity: OperatorProximity,

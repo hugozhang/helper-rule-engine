@@ -21,7 +21,6 @@
 .query-builder {
   overflow: hidden;
 }
-
 .query-builder *, .query-builder *::before, .query-builder *::after {
   box-sizing: border-box;
 }
@@ -44,7 +43,6 @@ body.qb-dragging .ant-tooltip {
   cursor: -webkit-grabbing !important;
   cursor: grabbing !important;
 }
-
 .query-builder.qb-dragging button {
   pointer-events: none;
 }
@@ -140,17 +138,14 @@ ul.ant-select-selection__rendered {
 .group--children {
   padding-left: 24px;
 }
-
 .group--children > .group-or-rule-container > .group-or-rule:before {
   top: -4px;
   border-width: 0 0 2px 2px;
 }
-
 .group--children > .group-or-rule-container > .group-or-rule::after {
   top: 50%;
   border-width: 0 0 0 2px;
 }
-
 .group--children > .group-or-rule-container > .group-or-rule::before, .group--children > .group-or-rule-container > .group-or-rule::after {
   content: "";
   position: absolute;
@@ -163,34 +158,27 @@ ul.ant-select-selection__rendered {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
 .group--children.hide--conjs > .group-or-rule-container:first-child > .group-or-rule::before {
   display: none;
 }
-
 .group--children.hide--conjs > .group-or-rule-container:first-child > .group-or-rule::after {
   border-radius: 4px 0 0 0;
   border-width: 2px 0 0 2px;
 }
-
 .group--children.rule_group--children > .group-or-rule-container:first-child > .group-or-rule::before {
   display: none;
 }
-
 .group--children.rule_group--children > .group-or-rule-container:first-child > .group-or-rule::after {
   border-radius: 4px 0 0 0;
   border-width: 2px 0 0 2px;
 }
-
 .group--children > .group-or-rule-container:first-child > .group-or-rule::before {
   top: -12px;
   height: calc(50% + 14px);
 }
-
 .group--children > .group-or-rule-container:last-child > .group-or-rule::before {
   border-radius: 0 0 0 4px;
 }
-
 .group--children > .group-or-rule-container:last-child > .group-or-rule::after {
   display: none;
 }
@@ -227,23 +215,18 @@ ul.ant-select-selection__rendered {
   flex: 1;
   display: flex;
 }
-
 .group--actions--tl, .group--actions--bl {
   justify-content: flex-start;
 }
-
 .group--actions--tl {
   margin-left: 20px;
 }
-
 .group--actions--tc, .group--actions--bc {
   justify-content: center;
 }
-
 .group--actions--tr, .group--actions--br {
   justify-content: flex-end;
 }
-
 .group--actions .action--DELETE {
   margin-top: -1px;
 }
@@ -265,13 +248,11 @@ ul.ant-select-selection__rendered {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 .case_group--body .case_group--children {
   flex: auto;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
-
 .case_group--body .case_group--value {
   margin-top: 0;
   margin-bottom: 0;
@@ -285,37 +266,30 @@ ul.ant-select-selection__rendered {
   display: flex;
   padding-left: 10px;
 }
-
 .rule_group .group--drag-handler {
   align-self: center;
 }
-
 .rule_group .group--field {
   align-self: center;
 }
-
 .rule_group .group--actions {
   align-self: center;
   flex: 0;
 }
-
 .rule_group .rule_group--children {
   flex: 1;
   margin-top: 5px;
   margin-bottom: 5px;
   padding-left: 18px;
 }
-
 .rule_group .rule_group--children .group-or-rule-container {
   margin-bottom: 5px;
   margin-top: 5px;
   padding-right: 5px;
 }
-
 .rule_group .rule_group--children.one--child {
   padding-left: 10px;
 }
-
 .rule_group .rule_group--children > .group-or-rule-container > .group-or-rule::before, .rule_group .rule_group--children > .group-or-rule-container > .group-or-rule::after {
   left: -10px;
   width: 10px;
@@ -359,11 +333,9 @@ ul.ant-select-selection__rendered {
   align-self: flex-end;
   margin-bottom: 8px;
 }
-
 .mui .rule--operator-options {
   vertical-align: bottom;
 }
-
 .mui .widget--valuesrc {
   vertical-align: bottom;
 }
@@ -399,7 +371,6 @@ div.tooltip-inner {
 .conjunction {
   display: inline-block;
 }
-
 .conjunction label {
   display: inline-block;
   border: 1px solid;
@@ -408,34 +379,27 @@ div.tooltip-inner {
   text-transform: uppercase;
   padding: 0.2rem 0.4rem;
 }
-
 .conjunction input {
   display: none;
 }
-
 .conjunction[data-state=active] label {
   background-color: #3276b1;
   border-color: #285e8e;
 }
-
 .conjunction[data-state=inactive] label {
   background-color: #428bca;
   border-color: #357ebd;
 }
-
 .conjunction[data-state=inactive] label:hover {
   background-color: #3276b1;
   border-color: #285e8e;
 }
-
 .conjunction:first-child label {
   border-radius: 3px 0 0 3px;
 }
-
 .conjunction:last-child label {
   border-radius: 0 3px 3px 0;
 }
-
 .conjunction:first-child:last-child {
   border-radius: 3px;
 }
@@ -476,7 +440,6 @@ div.tooltip-inner {
 .qb-lite .group--drag-handler, .qb-lite .group--actions {
   transition: opacity 0.2s;
 }
-
 .qb-lite .group--header:hover .group--header .group--drag-handler, .qb-lite .group--header:hover .group--header .group--actions,
 .qb-lite .group--header:not(:hover) .group--drag-handler,
 .qb-lite .group--header:not(:hover) .group--actions,
@@ -484,11 +447,9 @@ div.tooltip-inner {
 .qb-lite .rule_group:not(:hover) .group--actions {
   opacity: 0;
 }
-
 .qb-lite .group--conjunctions .ant-btn:not(.ant-btn-primary), .qb-lite .rule_group_ext--drag-handler {
   transition: padding 0.2s;
 }
-
 .qb-lite .group--header:hover .group--header .group--conjunctions .ant-btn:not(.ant-btn-primary), .qb-lite .group--header:hover .group--header .rule_group_ext--drag-handler,
 .qb-lite .group--header:not(:hover) .group--conjunctions .ant-btn:not(.ant-btn-primary),
 .qb-lite .group--header:not(:hover) .rule_group_ext--drag-handler,
@@ -499,22 +460,18 @@ div.tooltip-inner {
   overflow: hidden;
   opacity: 0;
 }
-
 .qb-lite .widget--valuesrc, .qb-lite .rule--drag-handler, .qb-lite .rule--header {
   transition: opacity 0.2s;
 }
-
 .qb-lite .rule:hover .rule .widget--valuesrc, .qb-lite .rule:hover .rule .rule--drag-handler, .qb-lite .rule:hover .rule .rule--header,
 .qb-lite .rule:not(:hover) .widget--valuesrc,
 .qb-lite .rule:not(:hover) .rule--drag-handler,
 .qb-lite .rule:not(:hover) .rule--header {
   opacity: 0;
 }
-
 .qb-lite.qb-dragging .widget--valuesrc, .qb-lite.qb-dragging .rule--drag-handler, .qb-lite.qb-dragging .rule--header, .qb-lite.qb-dragging .group--drag-handler, .qb-lite.qb-dragging .group--actions {
   opacity: 0 !important;
 }
-
 .qb-lite.qb-dragging .group--conjunctions .ant-btn:not(.ant-btn-primary), .qb-lite.qb-dragging .rule_group_ext--drag-handler {
   width: 0 !important;
   padding: 0 !important;
@@ -538,11 +495,9 @@ div.tooltip-inner {
   margin-bottom: 10px;
   padding-right: 10px;
 }
-
 .group-or-rule-container:first-child {
   margin-top: 0px !important;
 }
-
 .group-or-rule-container:last-child {
   margin-bottom: 0px !important;
 }
@@ -559,19 +514,15 @@ div.tooltip-inner {
   display: flex;
   align-items: center;
 }
-
 .rule--body.can--shrink--value .rule--value {
   flex: 1;
 }
-
 .rule--body.can--shrink--value .rule--value > .rule--widget {
   display: flex;
 }
-
 .rule--body.can--shrink--value .rule--value > .rule--widget .widget--widget {
   flex: 1;
 }
-
 .rule--body.can--shrink--value .rule--value > .rule--widget > .widget--valuesrc {
   display: flex;
   align-items: center;
@@ -580,7 +531,6 @@ div.tooltip-inner {
 .rule--value > .rule--widget > .widget--valuesrc .anticon {
   height: 100%;
 }
-
 .rule--value > .rule--widget > .widget--valuesrc .anticon svg {
   height: 100%;
 }

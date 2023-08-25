@@ -19,320 +19,243 @@ const {
 } = AntdWidgets;
 const InitialConfig = AntdConfig; // or BasicConfig or MaterialConfig
 
+const { simulateAsyncFetch } = Utils;
+
+const demoListValues = [
+  { title: "A", value: "a" },
+  { title: "AA", value: "aa" },
+  { title: "AAA1", value: "aaa1" },
+  { title: "AAA2", value: "aaa2" },
+  { title: "B", value: "b" },
+  { title: "C", value: "c" },
+  { title: "D", value: "d" },
+  { title: "E", value: "e" },
+  { title: "F", value: "f" },
+  { title: "G", value: "g" },
+  { title: "H", value: "h" },
+  { title: "I", value: "i" },
+  { title: "J", value: "j" },
+];
+const simulatedAsyncFetch = simulateAsyncFetch(demoListValues, 3);
+
+
 //////////////////////////////////////////////////////////////////////
 
 const fields: Fields = {
-  WITHDRAWAL_DESTINATION_BANK_ACCOUNT_COUNTRY: {
-    label: "WITHDRAWAL_DESTINATION_BANK_ACCOUNT_COUNTRY",
-    type: "text",
-    excludeOperators: ["proximity"],
-    fieldSettings: {
-      validateValue: (val: string, fieldSettings) => {
-        return (val.length <= 2);
+  user: {
+    label: "User",
+    tooltip: "Group of fields",
+    type: "!struct",
+    subfields: {
+      firstName: {
+        label2: "Username", //only for menu's toggler
+        type: "text",
+        excludeOperators: ["proximity"],
+        mainWidgetProps: {
+          valueLabel: "Name",
+          valuePlaceholder: "Enter name",
+        },
+        fieldSettings: {
+          validateValue: (val: string, fieldSettings) => {
+            return (val.length < 10);
+          },
+        },
       },
+      login: {
+        type: "text",
+        excludeOperators: ["proximity"],
+        fieldSettings: {
+          validateValue: (val: string, fieldSettings) => {
+            return (val.length < 10 && (val === "" || val.match(/^[A-Za-z0-9_-]+$/) !== null));
+          },
+        },
+        mainWidgetProps: {
+          valueLabel: "Login",
+          valuePlaceholder: "Enter login",
+        },
+      }
+    }
+  },
+  num: {
+    label: "Number",
+    type: "number",
+    preferWidgets: ["number"],
+    fieldSettings: {
+      min: -1,
+      max: 5
     },
   },
-  KYC_COUNTRY: {
-    label: "KYC_COUNTRY",
+  slider: {
+    label: "Slider",
+    type: "number",
+    preferWidgets: ["slider", "rangeslider"],
+    valueSources: ["value", "field"],
+    fieldSettings: {
+      min: 0,
+      max: 100,
+      step: 1,
+      marks: {
+        0: <strong>0%</strong>,
+        100: <strong>100%</strong>
+      },
+    },
+    //overrides
+    widgets: {
+      slider: {
+        widgetProps: {
+          valuePlaceholder: "..Slider",
+        }
+      }
+    },
+  },
+  date: {
+    label: "Date",
+    type: "date",
+    valueSources: ["value"],
+  },
+  time: {
+    label: "Time",
+    type: "time",
+    valueSources: ["value"],
+    operators: ["greater_or_equal", "less_or_equal", "between"],
+    defaultOperator: "between",
+  },
+  datetime: {
+    label: "DateTime",
+    type: "datetime",
+    valueSources: ["value"]
+  },
+  datetime2: {
+    label: "DateTime2",
+    type: "datetime",
+    valueSources: ["field"]
+  },
+  color: {
+    label: "Color",
+    type: "select",
+    valueSources: ["value"],
+    fieldSettings: {
+      listValues: [
+        { value: "yellow", title: "Yellow" },
+        { value: "green", title: "Green" },
+        { value: "orange", title: "Orange" }
+      ],
+    }
+  },
+  color2: {
+    label: "Color2",
+    type: "select",
+    fieldSettings: {
+      listValues: {
+        yellow: "Yellow",
+        green: "Green",
+        orange: "Orange",
+        purple: "Purple"
+      },
+    }
+  },
+  multicolor: {
+    label: "Colors",
+    type: "multiselect",
+    fieldSettings: {
+      listValues: {
+        yellow: "Yellow",
+        green: "Green",
+        orange: "Orange"
+      },
+      allowCustomValues: true
+    },
+  },
+  selecttree: {
+    label: "Color (tree)",
     type: "treeselect",
     fieldSettings: {
-      listValues: {
-        RU: "RU",
-        IE: "IE",
-        PL: "PL",
-        PT: "PT",
-        LV: "LV",
-        KZ: "KZ",
-        CZ: "CZ",
-        DE: "DE",
-        ID: "ID",
-      },
-      allowCustomValues: true
-    },
-  },
-  LAST_10_DAY_PLAYER_SOLD: {
-    label: "LAST_10_DAY_PLAYER_SOLD",
-    type: "text",
-    fieldSettings: {
-      listValues: {
-        LaMelo: "LaMelo Ball",
-        Luka: "Luka Dončić",
-        Zion: "Zion Williamson",
-        lebron: "LeBron James",
-        steph: "Steph Curry",
-        wilson: "A\'ja Wilson",
-      },
-      allowCustomValues: true
+      treeExpandAll: true,
+      listValues: [
+        {
+          value: "1", title: "Warm colors", children: [
+            { value: "2", title: "Red" },
+            { value: "3", title: "Orange" }
+          ]
+        },
+        {
+          value: "4", title: "Cool colors", children: [
+            { value: "5", title: "Green" },
+            {
+              value: "6", title: "Blue", children: [
+                {
+                  value: "7", title: "Sub blue", children: [
+                    { value: "8", title: "Sub sub blue and a long text" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
     }
   },
-  ACCOUNT_LASTNAME_NORMALIZED: {
-    label: "ACCOUNT_LASTNAME_NORMALIZED",
-    type: "text",
-    excludeOperators: ["proximity"],
+  multiselecttree: {
+    label: "Colors (tree)",
+    type: "treemultiselect",
     fieldSettings: {
-      validateValue: (val: string, fieldSettings) => {
-        return (val.length <= 200);
-      },
-    },
-  },
-  ACCOUNT_FIRSTNAME_NORMALIZED: {
-    label: "ACCOUNT_FIRSTNAME_NORMALIZED",
-    type: "text",
-    excludeOperators: ["proximity"],
-    fieldSettings: {
-      validateValue: (val: string, fieldSettings) => {
-        return (val.length <= 200);
-      },
-    },
-  },
-  KYC_LASTNAME_NORMALIZED: {
-    label: "KYC_LASTNAME_NORMALIZED",
-    type: "text",
-    excludeOperators: ["proximity"],
-    fieldSettings: {
-      validateValue: (val: string, fieldSettings) => {
-        return (val.length <= 200);
-      },
-    },
-  },
-  KYC_FIRSTNAME_NORMALIZED: {
-    label: "KYC_FIRSTNAME_NORMALIZED",
-    type: "text",
-    excludeOperators: ["proximity"],
-    fieldSettings: {
-      validateValue: (val: string, fieldSettings) => {
-        return (val.length <= 200);
-      },
-    },
-  },
-  LAST_10_DAY_MOMENT_TIER_SOLD: {
-    label: "LAST_10_DAY_MOMENT_TIER_SOLD",
-    type: "text",
-    fieldSettings: {
-      listValues: {
-        LaMelo: "LaMelo Ball",
-        Luka: "Luka Dončić",
-        Zion: "Zion Williamson",
-        lebron: "LeBron James",
-        steph: "Steph Curry",
-        wilson: "A\'ja Wilson",
-      },
-      allowCustomValues: true
+      treeExpandAll: true,
+      listValues: [
+        {
+          value: "1", title: "Warm colors", children: [
+            { value: "2", title: "Red" },
+            { value: "3", title: "Orange" }
+          ]
+        },
+        {
+          value: "4", title: "Cool colors", children: [
+            { value: "5", title: "Green" },
+            {
+              value: "6", title: "Blue", children: [
+                {
+                  value: "7", title: "Sub blue", children: [
+                    { value: "8", title: "Sub sub blue and a long text" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
-  WITHDRAW_AMOUNT_CENTS: {
-    label: "LAST_24_HR_WITHDRAWAL_REQUESTED_COUNT",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  LAST_10_DAY_P2P_SOLD_AMOUNT_CENTS: {
-    label: "LAST_10_DAY_P2P_SOLD_AMOUNT_CENTS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  LAST_48HR_ONRAMP_SUM_CENTS: {
-    label: "LAST_48HR_ONRAMP_SUM_CENTS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  LAST_24_HR_WITHDRAWAL_REQUESTED_COUNT: {
-    label: "LAST_24_HR_WITHDRAWAL_REQUESTED_COUNT",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  LAST_10_DAY_MIN_SERIAL_SOLD: {
-    label: "LAST_10_DAY_MIN_SERIAL_SOLD",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  FIRST_SUCCESSFUL_FIAT_TRANSACTION_AGE_SECONDS: {
-    label: "FIRST_SUCCESSFUL_FIAT_TRANSACTION_AGE_SECONDS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  USER_IN_VELOCITY_ON_RAMP_LIST_AGE_SECONDS: {
-    label: "USER_IN_VELOCITY_ON_RAMP_LIST_AGE_SECONDS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  LAST_EMAIL_CHANGE_AGE_SECONDS: {
-    label: "LAST_EMAIL_CHANGE_AGE_SECONDS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  TWOFA_UPDATE_AGE_SECONDS: {
-    label: "TWOFA_UPDATE_AGE_SECONDS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  USER_SIFT_GREEN_LABEL_AGE_SECONDS: {
-    label: "USER_SIFT_GREEN_LABEL_AGE_SECONDS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  SIFT_DECISION_AGE_SECONDS: {
-    label: "SIFT_DECISION_AGE_SECONDS",
-    type: "number",
-    preferWidgets: ["number"],
-    fieldSettings: {
-      min: 0
-    },
-  },
-  IS_ACH_WITHDRAWAL: {
-    label: "IS_ACH_WITHDRAWAL",
+  stock: {
+    label: "In stock",
     type: "boolean",
-    defaultValue: false,
+    defaultValue: true,
     mainWidgetProps: {
       labelYes: "+",
       labelNo: "-"
     }
   },
-  IS_ON_HOLD_WITHDRAWAL_LIST: {
-    label: "IS_ON_HOLD_WITHDRAWAL_LIST",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
+  autocomplete: {
+    label: "Autocomplete",
+    type: "select",
+    valueSources: ["value"],
+    fieldSettings: {
+      asyncFetch: simulatedAsyncFetch,
+      useAsyncSearch: true,
+      useLoadMore: true,
+      forceAsyncSearch: false,
+      allowCustomValues: false
+    },
   },
-  IS_ON_VELOCITY_ON_RAMP_LIST: {
-    label: "IS_ON_VELOCITY_ON_RAMP_LIST",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },  
-  IS_ON_EDD_LIST: {
-    label: "IS_ON_EDD_LIST",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  IS_WIRE_WITHDRAWAL: {
-    label: "IS_WIRE_WITHDRAWAL",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },  
-  SOMEONE_ELSE_HAS_USED_WITHDRAWAL_DESTINATION: {
-    label: "SOMEONE_ELSE_HAS_USED_WITHDRAWAL_DESTINATION",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  USER_HAS_USED_WITHDRAWAL_DESTINATION: {
-    label: "USER_HAS_USED_WITHDRAWAL_DESTINATION",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  INSTANT_WITHDRAWAL_SKIP_SHADOW_MODE: {
-    label: "INSTANT_WITHDRAWAL_SKIP_SHADOW_MODE",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  IS_CONSIDERED_HIGH_RISK_CRYPTO_WITHDRAWAL: {
-    label: "IS_CONSIDERED_HIGH_RISK_CRYPTO_WITHDRAWAL",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  IS_USDC_WITHDRAWAL: {
-    label: "IS_USDC_WITHDRAWAL",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  USER_HAS_SIFT_GREEN_LABEL: {
-    label: "USER_HAS_SIFT_GREEN_LABEL",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  IS_READONLY: {
-    label: "IS_READONLY",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  IS_BLOCKED: {
-    label: "IS_BLOCKED",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
-  },
-  IS_ON_VIP_LIST: {
-    label: "IS_ON_VIP_LIST",
-    type: "boolean",
-    defaultValue: false,
-    mainWidgetProps: {
-      labelYes: "+",
-      labelNo: "-"
-    }
+  autocompleteMultiple: {
+    label: "AutocompleteMultiple",
+    type: "multiselect",
+    valueSources: ["value"],
+    fieldSettings: {
+      asyncFetch: simulatedAsyncFetch,
+      useAsyncSearch: true,
+      useLoadMore: true,
+      forceAsyncSearch: false,
+      allowCustomValues: false
+    },
   },
 };
 

@@ -17,12 +17,12 @@ const preErrorStyle = { backgroundColor: "lightpink", margin: "10px", padding: "
 const emptyInitValue: JsonTree = {"id": uuid(), "type": "group"};
 
 // get init value in JsonTree format:
-// const initValue: JsonTree = loadedInitValue && Object.keys(loadedInitValue).length > 0 ? loadedInitValue as JsonTree : emptyInitValue;
-// const initTree: ImmutableTree = checkTree(loadTree(initValue), loadedConfig);
+const initValue: JsonTree = loadedInitValue && Object.keys(loadedInitValue).length > 0 ? loadedInitValue as JsonTree : emptyInitValue;
+const initTree: ImmutableTree = checkTree(loadTree(initValue), loadedConfig);
 
 // -OR- alternativaly get init value in JsonLogic format:
-const initLogic: JsonLogicTree = loadedInitLogic && Object.keys(loadedInitLogic).length > 0 ? loadedInitLogic : undefined;
-const initTree: ImmutableTree = checkTree(loadFromJsonLogic(initLogic, loadedConfig), loadedConfig);
+//const initLogic: JsonLogicTree = loadedInitLogic && Object.keys(loadedInitLogic).length > 0 ? loadedInitLogic : undefined;
+//const initTree: ImmutableTree = checkTree(loadFromJsonLogic(initLogic, loadedConfig), loadedConfig);
 
 
 interface DemoQueryBuilderState {
