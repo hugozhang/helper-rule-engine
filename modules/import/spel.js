@@ -466,8 +466,8 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
         valueType,
         value,
       };
-    } else if (methodName === 'string_to_date') {
-      // `string_to_date('${dateVal.format("YYYY-MM-DD")}', 'yyyy-MM-dd')`;
+    } else if (methodName === 'string_to_timestamp') {
+      // `string_to_timestamp('${dateVal.format("YYYY-MM-DD")}', 'yyyy-MM-dd')`;
       if (args.length !== 2) {
         meta.errors.push(`Expected args must have 2 arguments, but got ${args.length}.`);
         return undefined;
