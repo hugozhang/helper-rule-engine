@@ -466,6 +466,27 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
         valueType,
         value,
       };
+    } else if (methodName === 'string_to_date') {
+      // `string_to_date('${dateVal.format("YYYY-MM-DD")}', 'yyyy-MM-dd')`;
+      if (args.length !== 2) {
+        meta.errors.push(`Expected args must have 2 arguments, but got ${args.length}.`);
+        return undefined;
+      }
+      const dateString = args[0].val;
+      const dateFormat = args[1].val;
+      const valueType = dateFormat.includes(" ") ? "datetime" : dateFormat.includes("H") ? "time" : "date";
+      const field = null; // todo
+      const widget = valueType;
+      const fieldConfig = getFieldConfig(config, field);
+      const widgetConfig = config.widgets[widget || fieldConfig?.mainWidget];
+      const valueFormat = widgetConfig.valueFormat;
+      const dateVal = moment(dateString, valueType === 'time' ? 'HH:mm:ss' : moment.ISO_8601);
+      const value = dateVal.isValid() ? dateVal.format(valueFormat) : undefined;
+      return {
+        valueSrc: "value",
+        valueType,
+        value,
+      };
     } else {
       // todo: conv.funcs
       meta.errors.push(`Unsupported method ${methodName}`);
