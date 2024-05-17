@@ -71,11 +71,20 @@ const widgets = {
   ...BasicConfig.widgets,
   text: {
     ...BasicConfig.widgets.text,
+    formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
+      return SqlString.escape(val);
+    },
+    sqlFormatValue: (val, fieldDef, wgtDef, op, opDef) => {
+      return SqlString.escape(val);
+    },
     factory: (props) => <TextWidget {...props} />,
   },
   textarea: {
     ...BasicConfig.widgets.textarea,
     factory: (props) => <TextAreaWidget {...props} />,
+    formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
+      return SqlString.escape(val);
+    },
   },
   number: {
     ...BasicConfig.widgets.number,
@@ -88,6 +97,10 @@ const widgets = {
         ? <AutocompleteWidget multiple {...props} />
         : <MultiSelectWidget {...props} />;
     },
+    formatValue: (vals, fieldDef, wgtDef, isForDisplay) => {
+      let valsLabels = vals.map(v => SqlString.escape(getTitleInListValues(fieldDef.fieldSettings.listValues || fieldDef.asyncListValues, v)));
+      return isForDisplay ? valsLabels.map(stringifyForDisplay) : vals.map(JSON.stringify);
+    },
   },
   select: {
     ...BasicConfig.widgets.select,
@@ -95,6 +108,10 @@ const widgets = {
       return (props.asyncFetch || props.showSearch)
         ? <AutocompleteWidget {...props} />
         : <SelectWidget {...props} />;
+    },
+    formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
+      let valLabel = SqlString.escape(getTitleInListValues(fieldDef.fieldSettings.listValues || fieldDef.asyncListValues, val));
+      return isForDisplay ? stringifyForDisplay(valLabel) : JSON.stringify(val);
     },
   },
   slider: {
@@ -112,6 +129,7 @@ const widgets = {
   time: {
     ...BasicConfig.widgets.time,
     factory: (props) => <TimeWidget {...props} />,
+    
   },
   datetime: {
     ...BasicConfig.widgets.datetime,

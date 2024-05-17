@@ -42,7 +42,7 @@ export const settings = {
   canRegroup: true,
   showLock: false,
   canDeleteLocked: false,
-  showNot: true,
+  showNot: false,
   canLeaveEmptyGroup: true,
   shouldCreateEmptyGroup: false,
   forceShowConj: false,

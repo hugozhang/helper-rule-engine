@@ -13,7 +13,7 @@ import {completeValue} from "../utils/funcUtils";
 import {Map} from "immutable";
 
 
-export const queryString = (item, config, isForDisplay = false) => {
+export const queryString = (item, config, isForDisplay = true) => {
   //meta is mutable
   let meta = {
     errors: []
@@ -316,8 +316,13 @@ const formatFunc = (config, meta, funcValue, isForDisplay, parentField = null) =
     ];
     ret = fn(...args);
   } else {
+    // const argsStr = Object.entries(formattedArgsWithNames)
+    //   .map(([k, v]) => (isForDisplay ? `${k}: ${v}` : `${v}`))
+    //   .join(", ");
+    // ret = `${funcName}(${argsStr})`;
+
     const argsStr = Object.entries(formattedArgsWithNames)
-      .map(([k, v]) => (isForDisplay ? `${k}: ${v}` : `${v}`))
+      .map(([k, v]) => (`${v}`))
       .join(", ");
     ret = `${funcName}(${argsStr})`;
   }

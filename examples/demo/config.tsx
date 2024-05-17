@@ -287,7 +287,7 @@ export default (skin: string) => {
         },
         login: {
           type: "text",
-          tableName: "t1", // legacy: PR #18, PR #20
+          // tableName: "t1", // legacy: PR #18, PR #20
           fieldSettings: {
             validateValue: (val: string, fieldSettings) => {
               return (val.length < 10 && (val === "" || val.match(/^[A-Za-z0-9_-]+$/) !== null));
@@ -309,7 +309,7 @@ export default (skin: string) => {
       }
     },
     results: {
-      label: "Results",
+      label: "结果",
       type: "!group",
       subfields: {
         product: {

@@ -135,7 +135,7 @@ const operators = {
     spelOps: ["==", "eq"],
     reversedOp: "not_equal",
     formatOp: (field, op, value, valueSrcs, valueTypes, opDef, operatorOptions, isForDisplay, fieldDef) => {
-      const opStr = isForDisplay ? "=" : opDef.label;
+      const opStr = isForDisplay ? "==" : opDef.label;
       if (valueTypes == "boolean" && isForDisplay)
         return value == "No" ? `NOT ${field}` : `${field}`;
       else
@@ -402,7 +402,7 @@ const operators = {
     labelForFormat: "==",
     sqlOp: "=", // enum/set
     formatOp: (field, op, value, valueSrc, valueType, opDef, operatorOptions, isForDisplay) => {
-      const opStr = isForDisplay ? "=" : "==";
+      const opStr = isForDisplay ? "==" : "==";
       return `${field} ${opStr} ${value}`;
     },
     spelOp: "==",
@@ -432,9 +432,10 @@ const operators = {
     sqlOp: "IN",
     formatOp: (field, op, values, valueSrc, valueType, opDef, operatorOptions, isForDisplay) => {
       if (valueSrc == "value")
-        return `${field} IN (${values.join(", ")})`;
+        return `${field} IN [${values.join(", ")}]`;
+        // return`${field} IN ('${values.map(value => value.replace(/'/g, "\\'")).join("', '")}')`
       else
-        return `${field} IN (${values})`;
+        return `${field} IN [${values}]`;
     },
     sqlFormatOp: (field, op, values, valueSrc, valueType, opDef, operatorOptions, fieldDef) => {
       if (valueSrc == "value") {
@@ -454,9 +455,9 @@ const operators = {
     sqlOp: "NOT IN",
     formatOp: (field, op, values, valueSrc, valueType, opDef, operatorOptions, isForDisplay) => {
       if (valueSrc == "value")
-        return `${field} NOT IN (${values.join(", ")})`;
+        return `${field} NOT IN [${values.join(", ")}]`;
       else
-        return `${field} NOT IN (${values})`;
+        return `${field} NOT IN [${values}]`;
     },
     sqlFormatOp: (field, op, values, valueSrc, valueType, opDef, operatorOptions, fieldDef) => {
       if (valueSrc == "value") {
@@ -1247,9 +1248,9 @@ const settings = {
   ...defaultSettings,
 
   formatField: (field, parts, label2, fieldDefinition, config, isForDisplay) => {
-    if (isForDisplay)
-      return label2;
-    else
+    // if (isForDisplay)
+    //   return label2;
+    // else
       return field;
   },
   formatSpelField: (field, parentField, parts, partsExt, fieldDefinition, config) => {

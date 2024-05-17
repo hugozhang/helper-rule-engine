@@ -66,7 +66,9 @@ class RuleGroup extends BasicGroup {
       selectedField={selectedField}
       setField={setField}
       parentField={parentField}
-      readonly={immutableFieldsMode || isLocked}
+      // readonly={immutableFieldsMode || isLocked}
+      readonly={true}
+
       id={id}
       groupId={groupId}
     />;
