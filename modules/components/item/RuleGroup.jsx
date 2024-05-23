@@ -60,7 +60,7 @@ class RuleGroup extends BasicGroup {
     const { config, selectedField, setField, parentField, id, groupId, isLocked } = this.props;
     const { immutableFieldsMode } = config.settings;
     return <FieldWrapper
-      key="field"
+      key="field"  
       classname={"group--field"}
       config={config}
       selectedField={selectedField}

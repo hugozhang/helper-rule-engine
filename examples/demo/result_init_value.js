@@ -1,54 +1,58 @@
 export default 
 {
   "type": "group",
-  "id": "9a99988a-0123-4456-b89a-b1607f326fd81",
-  "children1": {
-    "aaab8999-cdef-4012-b456-71702cd500901": {
+  "id": "9a99988a-0123-4456-b89a-b1607f326fd8",
+  "children1": [
+    {
       "type": "rule_group",
+      "id": "8bb89bb9-4567-489a-bcde-f18fa52f4c9b",
       "properties": {
         "conjunction": "AND",
+        "not": false,
         "field": "results"
       },
-      "children1": {
-        "99b8a8a8-89ab-4cde-b012-31702cd5078b1": {
+      "children1": [
+        {
           "type": "rule",
+          "id": "99a9baab-0123-4456-b89a-b18fa52f5162",
           "properties": {
-            "field": "results.product",
-            "operator": "select_equals",
+            "field": "results.product1",
+            "operator": "single_equal",
             "value": [
-              "abc"
+              "a"
             ],
             "valueSrc": [
               "value"
             ],
-            "valueType": [
-              "select"
-            ],
             "valueError": [
               null
+            ],
+            "valueType": [
+              "text"
             ]
           }
         },
-        "88b9bb89-4567-489a-bcde-f1702cd532661": {
+        {
           "type": "rule",
+          "id": "b98898aa-cdef-4012-b456-718fa52f5e3e",
           "properties": {
-            "field": "results.score",
-            "operator": "greater",
+            "field": "results.product2",
+            "operator": "single_equal",
             "value": [
-              8
+              "b"
             ],
             "valueSrc": [
               "value"
             ],
-            "valueType": [
-              "number"
-            ],
             "valueError": [
               null
+            ],
+            "valueType": [
+              "text"
             ]
           }
         }
-      }
+      ]
     }
-  }
+  ]
 };

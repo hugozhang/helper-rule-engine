@@ -67,6 +67,7 @@ interface DemoQueryBuilderState {
   tree: ImmutableTree;
   tree2: ImmutableTree;
   config: Config;
+  config2: Config;
   skin: string,
   spelStr: string;
   spelErrors: Array<string>;
@@ -88,6 +89,7 @@ const DemoQueryBuilder: React.FC = () => {
     tree: initTree, 
     tree2: initResultTree,
     config: loadedConfig,
+    config2:loadedResultConfig,
     skin: initialSkin,
     spelStr: "",
     spelErrors: [] as Array<string>
@@ -133,7 +135,7 @@ const DemoQueryBuilder: React.FC = () => {
   const renderBuilder = useCallback((bprops: BuilderProps) => {
     memo.current._actions = bprops.actions;
     return (
-      <div className="query-builder-container" style={{padding: "10px"}}>
+      <div className="query-builder-container" style={{padding: "5px"}}>
         <div className="query-builder qb-lite">
           <Builder {...bprops} />
         </div>
@@ -164,21 +166,21 @@ const DemoQueryBuilder: React.FC = () => {
   }, []);
 
   const updateResult2 = throttle(() => {
-    setState(prevState => ({...prevState, tree2: memo.current.immutableTree, config: memo.current.config}));
+    setState(prevState => ({...prevState, tree2: memo.current.immutableTree, config2: memo.current.config}));
   }, 100);
 
 
 
 
-  const renderResult = ({tree: immutableTree,tree2: immutableTree2, config} : {tree: ImmutableTree,tree2: ImmutableTree, config: Config}) => {
+  const renderResult = ({tree: immutableTree,tree2: immutableTree2, config: config,config2: config2} : {tree: ImmutableTree,tree2: ImmutableTree, config: Config,config2: Config}) => {
     const isValid = isValidTree(immutableTree);
     const treeJs = getTree(immutableTree);
     const {logic, data: logicData, errors: logicErrors} = jsonLogicFormat(immutableTree, config);
     const [spel, spelErrors] = _spelFormat(immutableTree, config);
     const queryStr = queryString(immutableTree, config);
 
-    const queryStr2 = queryString(immutableTree2, config);
-    
+    const queryStr2 = queryString(immutableTree2, config2);
+
     const humanQueryStr = queryString(immutableTree, config, true);
     const [sql, sqlErrors] = _sqlFormat(immutableTree, config);
     const [mongo, mongoErrors] = _mongodbFormat(immutableTree, config);
@@ -187,22 +189,16 @@ const DemoQueryBuilder: React.FC = () => {
     return (
       <div>
         {isValid ? null : <pre style={preErrorStyle}>{"Tree has errors"}</pre>}
-        <br />
         
         <hr/>
         <div>
-        if stringFormat: 
+        规则表达式: 
           <pre style={preStyle}>
-            {stringify(queryStr, undefined, 2)}
+            {(queryStr.indexOf("FOR") == -1 ? "IF " : "") + queryStr + " THEN " + queryStr2?.replaceAll("results.","").replaceAll("AND",";").replaceAll("(","").replaceAll(")","")}
+            {/* {stringify(queryStr, undefined, 2)} */}
           </pre>
         </div>
         <hr/>
-        <div>
-        then stringFormat: 
-          <pre style={preStyle}>
-            {stringify(queryStr2, undefined, 2)}
-          </pre>
-        </div>
         
         {/* <hr/>
         <div>
@@ -255,25 +251,28 @@ const DemoQueryBuilder: React.FC = () => {
           </pre>
         </div>
         <hr/>
-        <div>
-        Tree: 
-          <pre style={preStyle}>
-            {stringify(treeJs, undefined, 2)}
-          </pre>
-        </div> */}
-        {/* <hr/>
+         */}
+         
       <div>
-        queryBuilderFormat: 
+        IF可视化数据结构: 
           <pre style={preStyle}>
-            {stringify(queryBuilderFormat(immutableTree, config), undefined, 2)}
+            {/* {stringify(queryBuilderFormat(immutableTree, config), undefined, 2)} */}
+            {stringify(getTree(immutableTree), undefined, 2)}
           </pre>
-      </div> */}
       </div>
+      <div>
+        THEN可视化数据结构: 
+          <pre style={preStyle}>
+            {/* {stringify(queryBuilderFormat(immutableTree2, config2), undefined, 2)} */}
+            {stringify(getTree(immutableTree2), undefined, 2)}
+          </pre>
+      </div>
+    </div>
     );
   };
 
   return (
-    <div style={{padding: "20px"}}>
+    <div style={{padding: "10px"}}>
       {/* <div>
         <select value={state.skin} onChange={changeSkin}>
           <option key="vanilla">vanilla</option>

@@ -275,6 +275,7 @@ export default (skin: string) => {
         firstName: {
           label2: "Username", //only for menu's toggler
           type: "text",
+          excludeOperators:["single_equal"],
           fieldSettings: {
             validateValue: (val: string, fieldSettings) => {
               return (val.length < 10);
@@ -288,6 +289,7 @@ export default (skin: string) => {
         login: {
           type: "text",
           // tableName: "t1", // legacy: PR #18, PR #20
+          excludeOperators:["single_equal"],
           fieldSettings: {
             validateValue: (val: string, fieldSettings) => {
               return (val.length < 10 && (val === "" || val.match(/^[A-Za-z0-9_-]+$/) !== null));
@@ -303,6 +305,7 @@ export default (skin: string) => {
     bio: {
       label: "Bio",
       type: "text",
+      excludeOperators:["single_equal"],
       preferWidgets: ["textarea"],
       fieldSettings: {
         maxLength: 1000,
@@ -314,6 +317,7 @@ export default (skin: string) => {
       subfields: {
         product: {
           type: "select",
+          excludeOperators:["single_equal"],
           fieldSettings: {
             listValues: ["abc", "def", "xyz"],
           },
@@ -321,6 +325,7 @@ export default (skin: string) => {
         },
         score: {
           type: "number",
+          excludeOperators:["single_equal"],
           fieldSettings: {
             min: 0,
             max: 100,
@@ -333,37 +338,42 @@ export default (skin: string) => {
       label: "Cars",
       type: "!group",
       mode: "array",
-      conjunctions: ["AND", "OR"],
-      showNot: true,
+      // conjunctions: ["AND", "OR"],
+      // showNot: true,
       operators: [
         // w/ operand - count
-        "equal",
-        "not_equal",
-        "less",
-        "less_or_equal",
-        "greater",
-        "greater_or_equal",
-        "between",
-        "not_between",
+        // "equal",
+        // "not_equal",
+        // "less",
+        // "less_or_equal",
+        // "greater",
+        // "greater_or_equal",
+        // "between",
+        // "not_between",
 
         // w/o operand
-        "some",
-        "all",
-        "none",
+        // "some",
+        // "all",
+        // "none",
+        "for_in"
       ],
-      defaultOperator: "some",
+      // defaultOperator: "some",
       initialEmptyWhere: true, // if default operator is not in config.settings.groupOperators, true - to set no children, false - to add 1 empty
 
       subfields: {
         vendor: {
+          fieldName:"$cars.vendor",
           type: "select",
+          excludeOperators:["single_equal"],
           fieldSettings: {
             listValues: ["Ford", "Toyota", "Tesla"],
           },
           valueSources: ["value"],
         },
         year: {
+          fieldName:"$cars.year",
           type: "number",
+          excludeOperators:["single_equal"],
           fieldSettings: {
             min: 1990,
             max: 2021,
@@ -376,11 +386,13 @@ export default (skin: string) => {
       label: "prox",
       tooltip: "Proximity search",
       type: "text",
+      excludeOperators:["single_equal"],
       operators: ["proximity"],
     },
     num: {
       label: "Number",
       type: "number",
+      excludeOperators:["single_equal"],
       preferWidgets: ["number"],
       fieldSettings: {
         min: -1,
@@ -391,6 +403,7 @@ export default (skin: string) => {
     slider: {
       label: "Slider",
       type: "number",
+      excludeOperators:["single_equal"],
       preferWidgets: ["slider", "rangeslider"],
       valueSources: ["value", "field"],
       fieldSettings: {
@@ -425,6 +438,7 @@ export default (skin: string) => {
     date: {
       label: "Date",
       type: "date",
+      excludeOperators:["single_equal"],
       valueSources: ["value"],
       fieldSettings: {
         dateFormat: "DD-MM-YYYY",
@@ -438,22 +452,26 @@ export default (skin: string) => {
     time: {
       label: "Time",
       type: "time",
+      excludeOperators:["single_equal"],
       valueSources: ["value"],
       defaultOperator: "between",
     },
     datetime: {
       label: "DateTime",
       type: "datetime",
+      excludeOperators:["single_equal"],
       valueSources: ["value", "func"]
     },
     datetime2: {
       label: "DateTime2",
       type: "datetime",
+      excludeOperators:["single_equal"],
       valueSources: ["field"]
     },
     color: {
       label: "Color",
       type: "select",
+      excludeOperators:["single_equal"],
       valueSources: ["value"],
       fieldSettings: {
         showSearch: true,
@@ -474,6 +492,7 @@ export default (skin: string) => {
     color2: {
       label: "Color2",
       type: "select",
+      excludeOperators:["single_equal"],
       fieldSettings: {
         listValues: {
           yellow: "Yellow",
@@ -486,6 +505,7 @@ export default (skin: string) => {
     multicolor: {
       label: "Colors",
       type: "multiselect",
+      excludeOperators:["single_equal"],
       fieldSettings: {
         showSearch: true,
         listValues: {
@@ -499,6 +519,7 @@ export default (skin: string) => {
     selecttree: {
       label: "Color (tree)",
       type: "treeselect",
+      excludeOperators:["single_equal"],
       fieldSettings: {
         treeExpandAll: true,
         // * deep format (will be auto converted to flat format):
@@ -532,6 +553,7 @@ export default (skin: string) => {
     multiselecttree: {
       label: "Colors (tree)",
       type: "treemultiselect",
+      excludeOperators:["single_equal"],
       fieldSettings: {
         treeExpandAll: true,
         listValues: [
@@ -561,6 +583,7 @@ export default (skin: string) => {
     autocomplete: {
       label: "Autocomplete",
       type: "select",
+      excludeOperators:["single_equal"],
       valueSources: ["value"],
       fieldSettings: {
         asyncFetch: simulatedAsyncFetch,
@@ -573,6 +596,7 @@ export default (skin: string) => {
     autocompleteMultiple: {
       label: "AutocompleteMultiple",
       type: "multiselect",
+      excludeOperators:["single_equal"],
       valueSources: ["value"],
       fieldSettings: {
         asyncFetch: simulatedAsyncFetch,
@@ -585,6 +609,7 @@ export default (skin: string) => {
     stock: {
       label: "In stock",
       type: "boolean",
+      excludeOperators:["single_equal"],
       defaultValue: true,
       mainWidgetProps: {
         labelYes: "+",

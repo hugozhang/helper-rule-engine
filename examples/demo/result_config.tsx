@@ -272,21 +272,47 @@ export default (skin: string) => {
       label: "结果",
       type: "!group",
       subfields: {
-        product: {
-          type: "select",
+        product1: {
+          type: "text",
+          operators:["single_equal"],
           fieldSettings: {
-            listValues: ["abc", "def", "xyz"],
+            validateValue: (val: string, fieldSettings) => {
+              return (val.length < 10);
+            },
           },
-          valueSources: ["value"],
+          mainWidgetProps: {
+            valueLabel: "Name",
+            valuePlaceholder: "Enter name",
+          },
         },
-        score: {
-          type: "number",
+        product2: {
+          type: "text",
+          operators:["single_equal"],
           fieldSettings: {
-            min: 0,
-            max: 100,
+            validateValue: (val: string, fieldSettings) => {
+              return (val.length < 10);
+            },
           },
-          valueSources: ["value"],
-        }
+          mainWidgetProps: {
+            valueLabel: "Name",
+            valuePlaceholder: "Enter name",
+          },
+        },
+        // product: {
+        //   type: "select",
+        //   fieldSettings: {
+        //     listValues: ["abc", "def", "xyz"],
+        //   },
+        //   valueSources: ["value"],
+        // },
+        // score: {
+        //   type: "number",
+        //   fieldSettings: {
+        //     min: 0,
+        //     max: 100,
+        //   },
+        //   valueSources: ["value"],
+        // }
       }
     }
   };

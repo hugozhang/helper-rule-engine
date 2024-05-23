@@ -65,7 +65,7 @@ const formatGroup = (item, config, meta, isForDisplay = false, parentField = nul
     conjunction = defaultConjunction(config);
   const conjunctionDefinition = config.conjunctions[conjunction];
 
-  const conjStr = list.size ? conjunctionDefinition.formatConj(list, conjunction, not, isForDisplay) : null;
+  const conjStr = list.size ? conjunctionDefinition.formatConj(list, conjunction, not, isForDisplay,mode) : null;
   
   let ret;
   if (groupField) {

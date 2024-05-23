@@ -37,10 +37,11 @@ const conjunctions = {
     spelConj: "and",
     spelConjs: ["and", "&&"],
     reversedConj: "OR",
-    formatConj: (children, conj, not, isForDisplay) => {
-      return children.size > 1
-        ? (not ? "NOT " : "") + "(" + children.join(" " + (isForDisplay ? "AND" : "&&") + " ") + ")"
+    formatConj: (children, conj, not, isForDisplay,mode) => {
+      const _conj =  children.size > 1
+        ? (not ? "NOT " : "") + (mode == "array" ? "" : "(") + children.join(" " + (isForDisplay ? "AND" : "&&") + " ") + (mode == "array" ? "" : ")")
         : (not ? "NOT (" : "") + children.first() + (not ? ")" : "");
+      return _conj.indexOf("FOR") == -1 ? _conj : _conj.slice(1,_conj.length -1); //去掉首尾括号
     },
     sqlFormatConj: (children, conj, not) => {
       return children.size > 1
@@ -127,6 +128,24 @@ export const mongoFormatOp2 = (mops, not,  field, _op, values, useExpr, valueSrc
 
 
 const operators = {
+  single_equal: {
+    label: "=",
+    labelForFormat: "=",
+    sqlOp: "=",
+    spelOp: "=",
+    spelOps: ["=", "eq"],
+    reversedOp: "not_equal",
+    formatOp: (field, op, value, valueSrcs, valueTypes, opDef, operatorOptions, isForDisplay, fieldDef) => {
+      const opStr = isForDisplay ? "=" : opDef.label;
+      if (valueTypes == "boolean" && isForDisplay)
+        return value == "No" ? `NOT ${field}` : `${field}`;
+      else
+        return `${field} ${opStr} ${value}`;
+    },
+    mongoFormatOp: mongoFormatOp1.bind(null, "$eq", v => v, false),
+    jsonLogic: "=",
+    elasticSearchQueryType: "term",
+  },
   equal: {
     label: "==",
     labelForFormat: "==",
@@ -231,7 +250,7 @@ const operators = {
   },
   starts_with: {
     label: "Starts with",
-    labelForFormat: "Starts with",
+    labelForFormat: "startsWith",
     sqlOp: "LIKE",
     spelOp: ".startsWith",
     spelOps: ["matches", ".startsWith"],
@@ -241,7 +260,7 @@ const operators = {
   },
   ends_with: {
     label: "Ends with",
-    labelForFormat: "Ends with",
+    labelForFormat: "endsWith",
     sqlOp: "LIKE",
     spelOp: ".endsWith",
     spelOps: ["matches", ".endsWith"],
@@ -610,6 +629,15 @@ const operators = {
     jsonLogic: "none",
     spelFormatOp: (filteredSize) => `${filteredSize} == 0`,
     mongoFormatOp: mongoFormatOp1.bind(null, "$eq", v => 0, false),
+  },
+
+  for_in: {
+    label: "FOR IN",
+    labelForFormat: "FOR IN",
+    cardinality: 0,
+    jsonLogic: "FOR IN",
+    spelFormatOp: (filteredSize) => `${filteredSize} == 0`,
+    mongoFormatOp: mongoFormatOp1.bind(null, "$eq", v => 0, false),
   }
 };
 
@@ -969,6 +997,7 @@ const types = {
     widgets: {
       text: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "like",
@@ -986,6 +1015,7 @@ const types = {
       },
       textarea: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "like",
@@ -1003,6 +1033,7 @@ const types = {
       field: {
         operators: [
           //unary ops (like `is_empty`) will be excluded anyway, see getWidgetsForFieldOp()
+          "single_equal",
           "equal",
           "not_equal",
           "proximity", //can exclude if you want
@@ -1016,6 +1047,7 @@ const types = {
     widgets: {
       number: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "less",
@@ -1032,6 +1064,7 @@ const types = {
       },
       slider: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "less",
@@ -1051,6 +1084,7 @@ const types = {
     widgets: {
       date: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "less",
@@ -1072,6 +1106,7 @@ const types = {
     widgets: {
       time: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "less",
@@ -1093,6 +1128,7 @@ const types = {
     widgets: {
       datetime: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "less",
@@ -1162,6 +1198,7 @@ const types = {
     widgets: {
       boolean: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
           "is_null",
@@ -1175,6 +1212,7 @@ const types = {
       },
       field: {
         operators: [
+          "single_equal",
           "equal",
           "not_equal",
         ],
@@ -1196,6 +1234,7 @@ const types = {
           "none",
 
           // w/ operand - count
+          "single_equal",
           "equal",
           "not_equal",
           "less",
@@ -1294,8 +1333,11 @@ const settings = {
   formatAggr: (whereStr, aggrField, operator, value, valueSrc, valueType, opDef, operatorOptions, isForDisplay, aggrFieldDef) => {
     const {labelForFormat, cardinality} = opDef;
     if (cardinality == 0) {
-      const cond = whereStr ? ` HAVE ${whereStr}` : "";
-      return `${labelForFormat} OF ${aggrField}${cond}`;
+      const forIn = labelForFormat.replace(" ", " $" + aggrField.slice(0,aggrField.length - 1) + " ") + " " + aggrField;
+      const cond = whereStr ? `${whereStr}` : "";
+      return `${forIn} IF ${cond}`;
+      // const cond = whereStr ? ` HAVE ${whereStr}` : "";
+      // return `${labelForFormat} OF ${aggrField}${cond}`;
     } else if (cardinality == undefined || cardinality == 1) {
       const cond = whereStr ? ` WHERE ${whereStr}` : "";
       return `COUNT OF ${aggrField}${cond} ${labelForFormat} ${value}`;
@@ -1304,6 +1346,9 @@ const settings = {
       let valFrom = value.first();
       let valTo = value.get(1);
       return `COUNT OF ${aggrField}${cond} ${labelForFormat} ${valFrom} AND ${valTo}`;
+    } else if (cardinality == 3) {
+      const cond = whereStr ? ` WHERE ${whereStr}` : "";
+      return `FOR IN ${aggrField}${cond} ${labelForFormat} ${value}`;
     }
   },
   canCompareFieldWithField: (leftField, leftFieldConfig, rightField, rightFieldConfig) => {
