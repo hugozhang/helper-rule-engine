@@ -130,7 +130,11 @@ const formatGroup = (item, config, meta, parentField = null) => {
 
   const isRuleGroup = type === "rule_group";
   const isRuleGroupArray = isRuleGroup && mode != "struct";
-  const groupField = isRuleGroupArray ? field : parentField;
+  
+  //TODO for in的时候查询条件是列变量的时候
+  // const groupField = isRuleGroupArray ? field : parentField;
+  const groupField = parentField;
+
   const groupFieldDef = getFieldConfig(config, groupField) || {};
   const isSpelArray = groupFieldDef.isSpelArray;
   

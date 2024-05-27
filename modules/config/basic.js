@@ -1339,16 +1339,15 @@ const settings = {
       // const cond = whereStr ? ` HAVE ${whereStr}` : "";
       // return `${labelForFormat} OF ${aggrField}${cond}`;
     } else if (cardinality == undefined || cardinality == 1) {
-      const cond = whereStr ? ` WHERE ${whereStr}` : "";
-      return `COUNT OF ${aggrField}${cond} ${labelForFormat} ${value}`;
+      const cond = whereStr ? ` IF ${whereStr}` : "";
+      return `( COUNT OF ${aggrField}${cond} ) ${labelForFormat} ${value}` ;
+      // const cond = whereStr ? ` WHERE ${whereStr}` : "";
+      // return `COUNT OF ${aggrField}${cond} ${labelForFormat} ${value}`;
     } else if (cardinality == 2) {
       const cond = whereStr ? ` WHERE ${whereStr}` : "";
       let valFrom = value.first();
       let valTo = value.get(1);
       return `COUNT OF ${aggrField}${cond} ${labelForFormat} ${valFrom} AND ${valTo}`;
-    } else if (cardinality == 3) {
-      const cond = whereStr ? ` WHERE ${whereStr}` : "";
-      return `FOR IN ${aggrField}${cond} ${labelForFormat} ${value}`;
     }
   },
   canCompareFieldWithField: (leftField, leftFieldConfig, rightField, rightFieldConfig) => {

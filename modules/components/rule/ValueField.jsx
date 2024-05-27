@@ -53,10 +53,17 @@ export default class ValueField extends PureComponent {
     const fieldSeparator = config.settings.fieldSeparator;
     const parentFieldPath = typeof parentField == "string" ? parentField.split(fieldSeparator) : parentField;
     const parentFieldConfig = parentField ? getFieldConfig(config, parentField) : null;
-    const sourceFields = parentField ? parentFieldConfig && parentFieldConfig.subfields : config.fields;
+    // const sourceFields = parentField ? parentFieldConfig && parentFieldConfig.subfields : config.fields;
+
+    //TODO: refactor
+    const sourceFields = config.fields;
+
 
     const filteredFields = this.filterFields(config, sourceFields, field, parentField, parentFieldPath, operator, canCompareFieldWithField, isFuncArg, fieldDefinition);
-    const items = this.buildOptions(parentFieldPath, config, filteredFields, parentFieldPath);
+    // const items = this.buildOptions(parentFieldPath, config, filteredFields, parentFieldPath);
+
+    const items = this.buildOptions(parentFieldPath, config, filteredFields, null);
+
     return items;
   }
 
@@ -129,7 +136,11 @@ export default class ValueField extends PureComponent {
       return keys(list).length;
     }
 
-    _filter(fields, parentFieldPath || []);
+    // TODO: filter by path
+    // _filter(fields, parentFieldPath || []);
+
+    _filter(fields, []);
+
 
     return fields;
   }

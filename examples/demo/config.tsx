@@ -342,12 +342,12 @@ export default (skin: string) => {
       // showNot: true,
       operators: [
         // w/ operand - count
-        // "equal",
-        // "not_equal",
-        // "less",
-        // "less_or_equal",
-        // "greater",
-        // "greater_or_equal",
+        "equal",
+        "not_equal",
+        "less",
+        "less_or_equal",
+        "greater",
+        "greater_or_equal",
         // "between",
         // "not_between",
 
@@ -362,7 +362,7 @@ export default (skin: string) => {
 
       subfields: {
         vendor: {
-          fieldName:"$cars.vendor",
+          fieldName:"$car.vendor",
           type: "select",
           excludeOperators:["single_equal"],
           fieldSettings: {
@@ -371,7 +371,7 @@ export default (skin: string) => {
           valueSources: ["value"],
         },
         year: {
-          fieldName:"$cars.year",
+          fieldName:"$car.year",
           type: "number",
           excludeOperators:["single_equal"],
           fieldSettings: {
@@ -379,7 +379,35 @@ export default (skin: string) => {
             max: 2021,
           },
           valueSources: ["value"],
-        }
+        },
+        firstName: {
+          fieldName:"$car.firstName",
+          type: "text",
+          excludeOperators:["single_equal"],
+          fieldSettings: {
+            validateValue: (val: string, fieldSettings) => {
+              return (val.length < 10);
+            },
+          },
+          mainWidgetProps: {
+            valueLabel: "Name",
+            valuePlaceholder: "Enter name",
+          },
+        },
+        firstName2: {
+          fieldName:"$car.firstName2",
+          type: "text",
+          excludeOperators:["single_equal"],
+          fieldSettings: {
+            validateValue: (val: string, fieldSettings) => {
+              return (val.length < 10);
+            },
+          },
+          mainWidgetProps: {
+            valueLabel: "Name",
+            valuePlaceholder: "Enter name",
+          },
+        },
       }
     },
     prox1: {

@@ -56,6 +56,26 @@ export default
               "number"
             ]
           }
+        },
+        {
+          "type": "rule",
+          "id": "8889a9b9-4567-489a-bcde-f18fb7c614ce",
+          "properties": {
+            "field": "cars.firstName",
+            "operator": "equal",
+            "value": [
+              "user.login"
+            ],
+            "valueSrc": [
+              "field"
+            ],
+            "valueError": [
+              null
+            ],
+            "valueType": [
+              "text"
+            ]
+          }
         }
       ]
     },
