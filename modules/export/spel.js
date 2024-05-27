@@ -413,7 +413,8 @@ const formatField = (meta, config, field, parentField = null) => {
       fieldName = fieldName.slice((parentFieldName + fieldSeparator).length);
       // fieldName = "#this." + fieldName;
     } else {
-      meta.errors.push(`Can't cut group ${parentFieldName} from field ${fieldName}`);
+      //TODO 去掉$开头变量的异常提示
+      // meta.errors.push(`Can't cut group ${parentFieldName} from field ${fieldName}`);
     }
   }
   const fieldPartsMeta = fieldPartsConfigs.map(([key, cnf, parentCnf]) => {

@@ -170,8 +170,6 @@ const DemoQueryBuilder: React.FC = () => {
   }, 100);
 
 
-
-
   const renderResult = ({tree: immutableTree,tree2: immutableTree2, config: config,config2: config2} : {tree: ImmutableTree,tree2: ImmutableTree, config: Config,config2: Config}) => {
     const isValid = isValidTree(immutableTree);
     const treeJs = getTree(immutableTree);
@@ -186,6 +184,10 @@ const DemoQueryBuilder: React.FC = () => {
     const [mongo, mongoErrors] = _mongodbFormat(immutableTree, config);
     const elasticSearch = elasticSearchFormat(immutableTree, config);
 
+
+    const expr = (queryStr.indexOf("FOR") == -1 ? "IF " : "") + queryStr 
+       + " THEN " + queryStr2?.replaceAll("results.","").replaceAll("AND",";").replaceAll("(","").replaceAll(")","");
+
     return (
       <div>
         {isValid ? null : <pre style={preErrorStyle}>{"Tree has errors"}</pre>}
@@ -194,7 +196,7 @@ const DemoQueryBuilder: React.FC = () => {
         <div>
         规则表达式: 
           <pre style={preStyle}>
-            {(queryStr.indexOf("FOR") == -1 ? "IF " : "") + queryStr + " THEN " + queryStr2?.replaceAll("results.","").replaceAll("AND",";").replaceAll("(","").replaceAll(")","")}
+            {expr}
             {/* {stringify(queryStr, undefined, 2)} */}
           </pre>
         </div>

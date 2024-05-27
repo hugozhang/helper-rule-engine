@@ -101,6 +101,17 @@ module.exports = {
         static: {
           directory: path.join(__dirname, '/'),
         },
+        proxy: {
+            // 代理配置
+            '/rule': {
+              // 将所有/api的请求代理到另一个服务器
+              target: 'http://127.0.0.1:8099', // 目标服务器地址
+              changeOrigin: true, // 改变主机头
+            //   pathRewrite: {
+            //     '^/api' : '' // 重写路径，移除/api前缀
+            //   }
+            },
+        }
     },
     entry: './index',
     output: {
