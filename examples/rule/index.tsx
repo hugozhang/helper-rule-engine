@@ -3,7 +3,8 @@ import { Table, Spin, Form, Input, Button, Select,Modal,message } from 'antd';
 import 'antd/dist/antd.css';
 import http from './http';
 
-const DemoQueryBuilder = React.lazy(() => import("../rule_win"));
+// const DemoQueryBuilder = React.lazy(() => import("../rule_win"));
+import DemoQueryBuilder from '../rule_win/index';
 
 
 const { Column } = Table;
@@ -57,7 +58,7 @@ const TableWithRemoteData = () => {
       title: '操作',
       dataIndex: '',
       key: 'x',
-      render: () => <a onClick={editModal}>编辑</a>,
+      render: (text:any, record:any, index:any) => <Button type="primary" onClick={editModal}>编辑 {`${text.id}`}</Button>,
     },
   ];
 
@@ -116,7 +117,7 @@ const TableWithRemoteData = () => {
   const handleOk = () => {
     setIsModalOpen(false);
     console.log('sql expr => \n',sqlExpr);
-    message.success(sqlExpr || 'Success');
+    // message.success(sqlExpr || 'Success');
     // message.info(sqlExpr || 'Info');
   };
 
@@ -159,6 +160,9 @@ const TableWithRemoteData = () => {
           rowKey={record => record.key}
         />
       </Spin>
+      <div>
+        {sqlExpr}
+      </div>
       <Modal 
         title={title} 
         width={1000} 

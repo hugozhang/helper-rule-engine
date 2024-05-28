@@ -89,7 +89,7 @@ const DemoQueryBuilder: React.FC<DemoQueryBuilderProps> = (props) => {
   const renderBuilder = useCallback((bprops: BuilderProps) => {
     memo.current._actions = bprops.actions;
     return (
-      <div className="query-builder-container" style={{padding: "3px"}}>
+      <div className="query-builder-container" style={{padding: "5px"}}>
         <div className="query-builder qb-lite">
           <Builder {...bprops} />
         </div>
@@ -123,6 +123,7 @@ const DemoQueryBuilder: React.FC<DemoQueryBuilderProps> = (props) => {
   }, 100);
 
 
+
   const renderResult = ({tree: immutableTree,tree2: immutableTree2, config: config,config2: config2} : {tree: ImmutableTree,tree2: ImmutableTree, config: Config,config2: Config}) => {
     const isValid = isValidTree(immutableTree);
 
@@ -145,7 +146,7 @@ const DemoQueryBuilder: React.FC<DemoQueryBuilderProps> = (props) => {
   };
 
   return (
-    <div style={{padding: "5px"}}>
+    <div style={{padding: "10px"}}>
       
       如果
       <Query
