@@ -84,7 +84,6 @@ const DemoQueryBuilder: React.FC = () => {
 
   const memo: React.MutableRefObject<DemoQueryBuilderMemo> = useRef({});
 
-
   const [state, setState] = useState<DemoQueryBuilderState>({
     tree: initTree, 
     tree2: initResultTree,
@@ -183,7 +182,6 @@ const DemoQueryBuilder: React.FC = () => {
     const [sql, sqlErrors] = _sqlFormat(immutableTree, config);
     const [mongo, mongoErrors] = _mongodbFormat(immutableTree, config);
     const elasticSearch = elasticSearchFormat(immutableTree, config);
-
 
     const expr = (queryStr.indexOf("FOR") == -1 ? "IF " : "") + queryStr 
        + " THEN " + queryStr2?.replaceAll("results.","").replaceAll("AND",";").replaceAll("(","").replaceAll(")","");
