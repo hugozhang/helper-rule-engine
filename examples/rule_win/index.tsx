@@ -189,9 +189,9 @@ const DemoQueryBuilder: React.FC<DemoQueryBuilderProps> = forwardRef((props,ref)
 
        const thenPartConfig = stringify(getTree(memo.current.immutableTree2 || initResultTree), undefined, 2);
 
-       const queryStr = queryString(memo.current.immutableTree1 || initTree, memo.current.config);
+       const queryStr = queryString(memo.current.immutableTree1 || initTree, loadedConfig);
 
-       const queryStr2 = queryString(memo.current.immutableTree2 || initResultTree, memo.current.config);
+       const queryStr2 = queryString(memo.current.immutableTree2 || initResultTree, loadedResultConfig);
 
        const queryStr2Processed = queryStr2?.replace(/AND/g, ";").replace(/results\./g, "").replace(/\(/g, "").replace(/\)/g, "");
     
