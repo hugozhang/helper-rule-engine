@@ -49,23 +49,21 @@ interface IfThenConfigProps {
 
 const TableWithRemoteData = () => {
 
-  const [data, setData] = useState([]); 
+  const [state, setState] = useState({
+    data: [],
+    currentRecordIdx: null,
+    tableLoading: false,
+    sqlExpr: null,
+    pagination: { current: 1, pageSize: 10, total: 0 },
+    ifPartConfig: null,
+    thenPartConfig: null,
+    title: '',
+    isAdd : false,
+    isModalOpen: false,
+  });
 
-  const [currentRecordIdx, setCurrentRecordIdx] = useState(null);
-
-  const [tableLoading, setTableLoading] = useState(false);
-
-  const [sqlExpr, setSqlExpr] = useState(null); 
-
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10,total: 0 });
-
-  const [ifPartConfig, setIfPartConfig] = useState(null); 
-
-  const [thenPartConfig, setThenPartConfig] = useState(null); 
 
   const childRef = useRef(null);
-
-  console.info(childRef);
 
   // 表格列的配置
   const columns = [
@@ -127,7 +125,11 @@ const TableWithRemoteData = () => {
   ];
 
   const loadData = async (params : any) => {
-    setTableLoading(true);
+    setState(prevState => ({
+      ...prevState,
+      tableLoading: true
+    }));
+
     try {
       
       // const r = await http.post('/rule/list', { params });
@@ -146,13 +148,27 @@ const TableWithRemoteData = () => {
         },
       };
 
-      setData(result.list);
-      setPagination({
-        ...pagination,
-        total: result.pagination.total,
-      });
+      // setData(result.list);
+      // setPagination({
+      //   ...pagination,
+      //   total: result.pagination.total,
+      // });
+     
+      setState(prevState => ({
+        ...prevState,
+        data: [...result.list],
+        pagination: {
+          ...prevState.pagination,
+          current: result.pagination.total,
+        },
+      }));
+
+
     } finally {
-      setTableLoading(false);
+      setState(prevState => ({
+      ...prevState,
+      tableLoading: false
+    }));
     }
   };
 
@@ -161,7 +177,13 @@ const TableWithRemoteData = () => {
   }, []);
 
   const handleTableChange = (newPagination : any) => {
-    setPagination(newPagination);
+    // setPagination(newPagination);
+    setState(prevState => ({
+      ...prevState,
+      pagination: {
+        ...newPagination,
+      },
+    }));
     loadData({});
   };
 
@@ -171,56 +193,82 @@ const TableWithRemoteData = () => {
   };
 
 
-  const [title, setTitle] = useState(null);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [isAdd, setIsAdd] = useState(false);
 
   const showModal = () => {
-    setIsModalOpen(true);
-    setIsAdd(true);
-    setTitle("添加规则");
-    setIfPartConfig(initialTree.ifPartConfig);
-    setThenPartConfig(initialTree.thenPartConfig);
+    // setIsModalOpen(true);
+    // setIsAdd(true);
+    // setTitle("添加规则");
+    // setIfPartConfig(initialTree.ifPartConfig);
+    // setThenPartConfig(initialTree.thenPartConfig);
+    setState(prevState => ({
+      ...prevState,
+      isModalOpen: true,
+      isAdd: true,
+      title: "添加规则",
+      ifPartConfig: initialTree.ifPartConfig,
+      thenPartConfig: initialTree.thenPartConfig,
+    }));
   };
 
   const editModal = (value:IfThenConfigProps,index:number) => {
-    setIsAdd(false);
-    setIsModalOpen(true);
-    setTitle("编辑规则");
-    setCurrentRecordIdx(index);
-    setIfPartConfig(value.ifPartConfig);
-    setThenPartConfig(value.thenPartConfig);
+    // setIsAdd(false);
+    // setIsModalOpen(true);
+    // setTitle("编辑规则");
+    // setCurrentRecordIdx(index);
+    // setIfPartConfig(value.ifPartConfig);
+    // setThenPartConfig(value.thenPartConfig);
+    setState(prevState => ({
+      ...prevState,
+      isModalOpen: true,
+      isAdd: false,
+      title: "编辑规则",
+      currentRecordIdx: index,
+      ifPartConfig: value.ifPartConfig,
+      thenPartConfig: value.thenPartConfig
+    }));
   };
 
 
   const handleOk = () => {
     const {exprSQL,ifPartConfig,thenPartConfig} = childRef.current.test();
-    if(isAdd) {
-      const newData = [...data,{
-        id: data.length + 1,
-        key: data.length + 1,
-        ruleName:"表达式名称" + (data.length + 1),
+    if(state.isAdd) {
+      const newData = [...state.data,{
+        id: state.data.length + 1,
+        key: state.data.length + 1,
+        ruleName:"表达式名称" + (state.data.length + 1),
         exprSQL : exprSQL,
         ifPartConfig: ifPartConfig,
         thenPartConfig: thenPartConfig
       }];
-      setData(newData);
+      // setData(newData);
+      setState(prevState => ({
+        ...prevState,
+        data: [...newData],
+      }));
     } else {
-      const updatedData = data.map((item,index) => {
-        if (index === currentRecordIdx) {
+      const updatedData = state.data.map((item,index) => {
+        if (index === state.currentRecordIdx) {
           return { ...item, ifPartConfig:ifPartConfig,thenPartConfig:thenPartConfig,exprSQL:exprSQL};
         }
         return item;
       });
-      setData(updatedData);
+      // setData(updatedData);
+      setState(prevState => ({
+        ...prevState,
+        data: [...updatedData],
+      }));
     }
-    setIsModalOpen(false);
+    setState(prevState => ({
+      ...prevState,
+      isModalOpen: false,
+    }));
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setState(prevState => ({
+      ...prevState,
+      isModalOpen: false,
+    }));
   };
 
   console.info(123)
@@ -240,26 +288,26 @@ const TableWithRemoteData = () => {
       <Button type="primary" onClick={showModal} htmlType="submit" style={{ marginBottom: 16 }}>
         添加规则
       </Button>
-      <Spin spinning={tableLoading}>
+      <Spin spinning={state.tableLoading}>
         <Table
           bordered
           columns={columns}
-          dataSource={data}
-          pagination={pagination}
+          dataSource={state.data}
+          pagination={state.pagination}
           onChange={handleTableChange}
           rowKey={record => record.key}
         />
       </Spin>
       <Modal 
-        title={title} 
+        title={state.title} 
         width={1000} 
-        open={isModalOpen} 
+        open={state.isModalOpen} 
         destroyOnClose
         okText = '保存'
         cancelText = '关闭'
         onOk={handleOk} 
         onCancel={handleCancel}>
-        <DemoQueryBuilder ref={childRef} ifPartConfig={ifPartConfig} thenPartConfig={thenPartConfig}/>
+        <DemoQueryBuilder ref={childRef} ifPartConfig={state.ifPartConfig} thenPartConfig={state.thenPartConfig}/>
       </Modal>
     </div>
   );
