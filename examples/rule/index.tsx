@@ -299,6 +299,9 @@ const TableWithRemoteData = () => {
         />
       </Spin>
       <Modal 
+        bodyStyle={{
+          height: "500px",overflowY: "auto"
+        }}
         title={state.title} 
         width={1000} 
         open={state.isModalOpen} 
