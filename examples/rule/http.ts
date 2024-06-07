@@ -42,12 +42,12 @@ http.interceptors.response.use(
 );
 
 // 封装 get 请求
-const get = (url, params) => {
+const get = (url:string, params:any) => {
   return http.get(url, { params });
 };
 
 // 封装 post 请求
-const post = (url, data) => {
+const post = (url:string, data:any) => {
   return http.post(url, data);
 };
 
