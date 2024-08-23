@@ -48,8 +48,8 @@ body.qb-dragging .ant-tooltip {
 }
 
 .group {
-  background: rgba(250, 240, 210, 0.5);
-  border: 1px solid #DCC896;
+  background: rgba(243, 245, 247, 0.5);
+  border: 1px solid #eff3f4;
 }
 
 .rule {
@@ -80,8 +80,8 @@ body.qb-dragging .ant-tooltip {
 }
 
 .rule_group {
-  background: rgba(255, 252, 242, 0.5);
-  border: 1px solid #f9f1dd;
+  background: rgba(243, 245, 247, 0.5);
+  border: 1px solid #eff5f7;
 }
 
 .qb-draggable {

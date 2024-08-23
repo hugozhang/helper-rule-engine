@@ -213,7 +213,6 @@ const DemoQueryBuilder: React.FC<DemoQueryBuilderProps> = forwardRef((props,ref)
   return (
     <div style={{padding: "10px"}}>
       
-      如果
       <Query
         {...loadedConfig}
         value={initTree}
@@ -221,7 +220,6 @@ const DemoQueryBuilder: React.FC<DemoQueryBuilderProps> = forwardRef((props,ref)
         renderBuilder={renderBuilder}
       />
 
-      那么
       <Query
         {...loadedResultConfig}
         value={initResultTree}
